@@ -51,25 +51,28 @@ const process = {
     }
     models.Oauth.findOne({
       where: {
-        userid: userId,
+        userId,
       },
     })
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         // console.log(result.password);
         if (result) {
           if (String(userPassword) === String(result.password)) {
             response.success = true;
             response.msg = '로그인에 성공하였습니다.';
+            response.userId = result.userid;
             res.send(response);
           } else {
             response.success = false;
             response.msg = '비밀번호가 일치하지 않습니다.';
+            response.userId = result.userid;
             res.send(response);
           }
         } else {
           response.success = false;
           response.msg = '가입되지 않은 아이디입니다.';
+          response.userId = result.userid;
           res.send(response);
         }
       })
